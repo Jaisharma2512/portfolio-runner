@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
+import styles from './RunnerGame.module.css'; // CSS Module import
 
-const GAME_WIDTH = 1200;
-const GAME_HEIGHT = 600;
 const PLAYER_SIZE = 96;
 const ORB_SIZE = 48;
 
@@ -28,8 +27,20 @@ const orbs = [
   { x: 300, key: 'about' },
   { x: 650, key: 'skills' },
   { x: 950, key: 'projects' },
-  { x: 1150, key: 'certificates' }
+  { x: 1150, key: 'certificates' },
 ];
+
+// Responsive 16:9 aspect ratio canvas sizing
+function getCanvasSize() {
+  const isMobile = window.innerWidth <= 800;
+  const maxWidth = isMobile ? window.innerWidth * 0.97 : 900;
+  const minWidth = 320;
+  const width = Math.max(Math.min(window.innerWidth * 0.97, maxWidth), minWidth);
+  const height = isMobile
+    ? Math.max(window.innerHeight * 0.46, width * 9 / 16, 230)
+    : Math.max(width * 9 / 16, 400);
+  return { width, height };
+}
 
 const GRAVITY = 0.7;
 const JUMP_VELOCITY = -15;
@@ -39,10 +50,10 @@ function RunnerGame() {
   const [gameStarted, setGameStarted] = useState(false);
   const [paused, setPaused] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [canvasSize, setCanvasSize] = useState(getCanvasSize());
   const imagesRef = useRef({});
-
   const playerX = useRef(50);
-  const playerY = useRef(GAME_HEIGHT - PLAYER_SIZE - 20);
+  const playerY = useRef(canvasSize.height - PLAYER_SIZE - 20);
   const velocityY = useRef(0);
   const isJumping = useRef(false);
 
@@ -55,10 +66,20 @@ function RunnerGame() {
   const canvasRef = useRef(null);
   const jumpAudioRef = useRef(null);
 
-  // Load assets on game start
+  // Responsive canvas update on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const size = getCanvasSize();
+      setCanvasSize(size);
+      playerY.current = size.height - PLAYER_SIZE - 20;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Load assets after game starts
   useEffect(() => {
     if (!gameStarted) return;
-
     const assets = {};
     let loaded = 0;
     const total = 3;
@@ -83,65 +104,75 @@ function RunnerGame() {
     imagesRef.current = assets;
   }, [gameStarted]);
 
-  // Handle keyboard: start, jump on UP only, pause/unpause
+  // Keyboard/touch controls for game interactions
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!gameStarted && (e.key === 'f' || e.key === 'F')) {
         setGameStarted(true);
-      } else if (
-        gameStarted &&
-        !paused &&
-        e.code === 'ArrowUp' &&
-        !isJumping.current
-      ) {
+      } else if (gameStarted && !paused && e.code === 'ArrowUp' && !isJumping.current) {
         velocityY.current = JUMP_VELOCITY;
         isJumping.current = true;
         if (jumpAudioRef.current) {
           jumpAudioRef.current.currentTime = 0;
           jumpAudioRef.current.play();
         }
-      } else if (
-        gameStarted &&
-        (e.key === 'p' || e.key === 'P' || e.key === 'Escape')
-      ) {
+      } else if (gameStarted && (e.key === 'p' || e.key === 'P' || e.key === 'Escape')) {
         setPaused((p) => !p);
       }
     };
+
+    const handleTap = () => {
+      if (!gameStarted) setGameStarted(true);
+      else if (!paused && !isJumping.current) {
+        velocityY.current = JUMP_VELOCITY;
+        isJumping.current = true;
+        if (jumpAudioRef.current) {
+          jumpAudioRef.current.currentTime = 0;
+          jumpAudioRef.current.play();
+        }
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const canvas = canvasRef.current;
+    canvas.addEventListener('touchstart', handleTap);
+    canvas.addEventListener('click', handleTap);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      canvas.removeEventListener('touchstart', handleTap);
+      canvas.removeEventListener('click', handleTap);
+    };
   }, [gameStarted, paused]);
 
-  // Main game loop & drawing
+  // Main game loop & rendering
   useEffect(() => {
     if (!gameStarted || !assetsLoaded) return;
     if (paused) return;
 
-    const context = canvasRef.current.getContext('2d');
+    const ctx = canvasRef.current.getContext('2d');
     let animationFrameId;
 
     function draw() {
       velocityY.current += GRAVITY;
       playerY.current += velocityY.current;
-      if (playerY.current > GAME_HEIGHT - PLAYER_SIZE - 20) {
-        playerY.current = GAME_HEIGHT - PLAYER_SIZE - 20;
+      if (playerY.current > canvasSize.height - PLAYER_SIZE - 20) {
+        playerY.current = canvasSize.height - PLAYER_SIZE - 20;
         isJumping.current = false;
         velocityY.current = 0;
       }
 
       playerX.current += RUN_SPEED;
-      if (playerX.current > GAME_WIDTH) playerX.current = 0;
+      if (playerX.current > canvasSize.width) playerX.current = 0;
 
-      context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      ctx.clearRect(0, 0, canvasSize.width, canvasSize.height);
 
-      // Background
-      context.drawImage(imagesRef.current.bg, 0, 0, GAME_WIDTH, GAME_HEIGHT);
+      ctx.drawImage(imagesRef.current.bg, 0, 0, canvasSize.width, canvasSize.height);
 
-      // Ground
-      context.fillStyle = 'rgba(30,60,90,0.3)';
-      context.fillRect(0, GAME_HEIGHT - 26, GAME_WIDTH, 26);
+      ctx.fillStyle = 'rgba(30,60,90,0.3)';
+      ctx.fillRect(0, canvasSize.height - 26, canvasSize.width, 26);
 
-      // Player
-      context.drawImage(
+      ctx.drawImage(
         imagesRef.current.player,
         playerX.current,
         playerY.current,
@@ -149,18 +180,18 @@ function RunnerGame() {
         PLAYER_SIZE
       );
 
-      // Orbs
       const currentOrbs = orbs.slice(activeOrbIndex, activeOrbIndex + 2);
       currentOrbs.forEach(({ x, key }) => {
+        const orbX = (x / 1200) * canvasSize.width;
+        const orbY = canvasSize.height - 50;
         if (!activeInfo || activeInfo !== key) {
-          context.drawImage(imagesRef.current.orb, x, GAME_HEIGHT - 50, ORB_SIZE, ORB_SIZE);
+          ctx.drawImage(imagesRef.current.orb, orbX, orbY, ORB_SIZE, ORB_SIZE);
 
-          // Collision detection
           if (
-            playerX.current + PLAYER_SIZE > x &&
-            playerX.current < x + ORB_SIZE &&
-            playerY.current + PLAYER_SIZE > GAME_HEIGHT - 50 &&
-            playerY.current + PLAYER_SIZE < GAME_HEIGHT - 18
+            playerX.current + PLAYER_SIZE > orbX &&
+            playerX.current < orbX + ORB_SIZE &&
+            playerY.current + PLAYER_SIZE > orbY &&
+            playerY.current < orbY + ORB_SIZE
           ) {
             setActiveInfo(key);
             setScore((s) => s + 1);
@@ -169,19 +200,18 @@ function RunnerGame() {
         }
       });
 
-      // Score
-      context.fillStyle = '#eee';
-      context.font = '22px Arial';
-      context.fillText('Orbs collected: ' + score, 18, 38);
+      ctx.fillStyle = '#eee';
+      ctx.font = '22px Arial';
+      ctx.fillText(`Orbs collected: ${score}`, 18, 38);
 
       animationFrameId = requestAnimationFrame(draw);
     }
     draw();
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [gameStarted, assetsLoaded, activeInfo, score, activeOrbIndex, paused]);
+  }, [gameStarted, assetsLoaded, activeInfo, score, activeOrbIndex, paused, canvasSize]);
 
-  // Animate info text typing effect
+  // Typing effect for info text display
   useEffect(() => {
     if (!activeInfo) return;
     setInfoVisible(true);
@@ -196,7 +226,7 @@ function RunnerGame() {
     return () => clearInterval(intervalId);
   }, [activeInfo]);
 
-  // Hide info overlay after 8 seconds
+  // Hide info overlay after timeout
   useEffect(() => {
     if (!infoVisible) return;
     const timerId = setTimeout(() => {
@@ -213,185 +243,117 @@ function RunnerGame() {
     cursor: 'pointer',
   };
 
-  const introCloudStyle = {
-    position: 'absolute',
-    top: '30%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: 550,
-    padding: '30px 40px',
-    background: 'linear-gradient(135deg, #cce7ff 0%, #e5f3ff 100%)',
-    borderRadius: '60px / 70px',
-    boxShadow: '0 20px 30px rgba(0,123,255,0.25)',
-    textAlign: 'center',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    userSelect: 'none',
-    zIndex: 10,
-    color: '#333',
-  };
-
   return (
-    <>
-      <div style={{ position: 'relative', width: GAME_WIDTH, margin: '20px auto' }}>
-        {!gameStarted && (
-          <div style={introCloudStyle}>
-            <p style={{ margin: 0, fontWeight: 'bold', fontSize: 20 }}>
-              Hi I am Jai a Devops Engineer from Himalayas and this is my cloud journey
-            </p>
-            <p style={{ marginTop: 12, fontSize: 16, color: '#666' }}>
-              Press <strong>F</strong> to start the game
-            </p>
-          </div>
-        )}
+    <div className="runner-container" style={{ position: 'relative', width: '100%', maxWidth: 900, margin: '20px auto' }}>
+      {!gameStarted && (
+        <div className={styles.introCloud}>
+          <p style={{ margin: 0, fontWeight: 'bold', fontSize: 20 }}>
+            Hi I am Jai a Devops Engineer from Himalayas and this is my cloud journey
+          </p>
+          <p style={{ marginTop: 12, fontSize: 16, color: '#666' }}>
+            Press <strong>F</strong> to start the game or tap the game area
+          </p>
+        </div>
+      )}
 
-        <audio ref={jumpAudioRef} src="/mariojump.mp3" preload="auto" />
+      <audio ref={jumpAudioRef} src="/mariojump.mp3" preload="auto" />
 
-        <canvas
-          ref={canvasRef}
-          width={GAME_WIDTH}
-          height={GAME_HEIGHT}
-          style={{
-            backgroundColor: '#1a1a23',
-            borderRadius: 8,
-            boxShadow: '0 0 28px #2af',
-            display: 'block',
-          }}
-        />
+      <canvas
+        ref={canvasRef}
+        width={canvasSize.width}
+        height={canvasSize.height}
+        style={{
+          backgroundColor: '#1a1a23',
+          borderRadius: 8,
+          boxShadow: '0 0 28px #2af',
+          display: 'block',
+          width: '100%',
+          maxWidth: canvasSize.width,
+        }}
+      />
 
-        {gameStarted && paused && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontSize: 28,
-              color: '#4cd9ff',
-              background: 'rgba(0, 0, 0, 0.7)',
-              padding: '20px 40px',
-              borderRadius: 12,
-              boxShadow: '0 0 20px #0ef',
-              userSelect: 'none',
-              zIndex: 20,
-              textAlign: 'center',
-            }}
-          >
-            Game Paused
-            <div style={{ fontSize: 16, marginTop: 8 }}>Press P or Escape to resume</div>
-          </div>
-        )}
+      {gameStarted && paused && (
+        <div className={styles.pauseOverlay}>
+          Game Paused
+          <div style={{ fontSize: 16, marginTop: 8 }}>Press P or Escape to resume</div>
+        </div>
+      )}
 
-        {infoVisible && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 40,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'rgba(30,30,60,0.95)',
-              color: '#c1eaff',
-              borderRadius: 12,
-              boxShadow: '0 0 20px #0ef',
-              padding: '32px 44px',
-              fontSize: 21,
-              maxWidth: 600,
-              zIndex: 20,
-              textAlign: 'center',
-              letterSpacing: 1,
-              userSelect: 'none',
-              pointerEvents: 'auto',
-            }}
-          >
-            <strong style={{ color: '#4cd9ff', fontSize: 24, letterSpacing: 1 }}>
-              {activeInfo && activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)}
-            </strong>
-            <div style={{ marginTop: 14 }}>{infoText}</div>
+      {infoVisible && (
+        <div className={styles.infoOverlay}>
+          <strong style={{ color: '#4cd9ff', fontSize: 24, letterSpacing: 1 }}>
+            {activeInfo && activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)}
+          </strong>
+          <div style={{ marginTop: 14 }}>{infoText}</div>
 
-            {activeInfo === 'about' && (
-              <div style={{ marginTop: 22 }}>
-                <a href={links.github} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  GitHub Profile
+          {activeInfo === 'about' && (
+            <div style={{ marginTop: 22 }}>
+              <a href={links.github} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                GitHub Profile
+              </a>{' '}
+              |{' '}
+              <a href={links.linkedin} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                LinkedIn Profile
+              </a>
+              <p style={{ marginTop: 10, fontStyle: 'italic' }}>
+                Freelancer on Fiverr:{' '}
+                <a href={links.freelancer} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Visit Fiverr Profile
+                </a>
+              </p>
+            </div>
+          )}
+
+          {activeInfo === 'skills' && (
+            <div style={{ marginTop: 22 }}>
+              <p>My Cloud and DevOps Skills in action!</p>
+            </div>
+          )}
+
+          {activeInfo === 'projects' && (
+            <div style={{ marginTop: 22 }}>
+              <p>
+                <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Smallboy Live
                 </a>{' '}
                 |{' '}
-                <a href={links.linkedin} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  LinkedIn Profile
+                <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Smallboy GitHub
                 </a>
-                <p style={{ marginTop: 10, fontStyle: 'italic' }}>
-                  Freelancer on Fiverr:{' '}
-                  <a href={links.freelancer} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Visit Fiverr Profile
-                  </a>
-                </p>
-              </div>
-            )}
+              </p>
+              <p>
+                <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Security Playground Live
+                </a>{' '}
+                |{' '}
+                <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Security Playground GitHub
+                </a>
+              </p>
+            </div>
+          )}
 
-            {activeInfo === 'skills' && (
-              <div style={{ marginTop: 22 }}>
-                <p>My Cloud and DevOps Skills in action!</p>
-              </div>
-            )}
-
-            {activeInfo === 'projects' && (
-              <div style={{ marginTop: 22 }}>
-                <p>
-                  <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Smallboy Live
-                  </a>{' '}
-                  |{' '}
-                  <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Smallboy GitHub
-                  </a>
-                </p>
-                <p>
-                  <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Security Playground Live
-                  </a>{' '}
-                  |{' '}
-                  <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Security Playground GitHub
-                  </a>
-                </p>
-              </div>
-            )}
-
-            {activeInfo === 'certificates' && (
-              <div style={{ marginTop: 22 }}>
-                <p>
-                  <a href={links.gceCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    Google Associate Cloud Engineer Certificate
-                  </a>
-                </p>
-                <p>
-                  <a href={links.ieeeCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                    IEEE Certificate of Appreciation
-                  </a>
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div
-          style={{
-            position: 'absolute',
-            top: 10,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            color: '#4cd9ff',
-            fontSize: 18,
-            fontWeight: 'bold',
-            backgroundColor: 'rgba(20,20,40,0.8)',
-            padding: '6px 20px',
-            borderRadius: 20,
-            userSelect: 'none',
-            zIndex: 30,
-            pointerEvents: 'none',
-          }}
-        >
-          Press UP ARROW to jump, Press P or ESC to pause/resume
+          {activeInfo === 'certificates' && (
+            <div style={{ marginTop: 22 }}>
+              <p>
+                <a href={links.gceCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  Google Associate Cloud Engineer Certificate
+                </a>
+              </p>
+              <p>
+                <a href={links.ieeeCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  IEEE Certificate of Appreciation
+                </a>
+              </p>
+            </div>
+          )}
         </div>
+      )}
+
+      <div className={styles.controlsReminder}>
+        Press UP ARROW to jump, Press P or ESC to pause/resume
       </div>
-    </>
+    </div>
   );
 }
 
