@@ -1,0 +1,85 @@
+.introCloud {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 550px;
+  padding: 30px 40px;
+  background: linear-gradient(135deg, #cce7ff 0%, #e5f3ff 100%);
+  border-radius: 60px / 70px;
+  box-shadow: 0 20px 30px rgba(0, 123, 255, 0.25);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  z-index: 10;
+  color: #333;
+}
+.pauseOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  color: #4cd9ff;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #0ef;
+  user-select: none;
+  z-index: 20;
+  text-align: center;
+}
+.infoOverlay {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30,30,60,0.95);
+  color: #c1eaff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #0ef;
+  padding: 32px 44px;
+  font-size: 21px;
+  max-width: 600px;
+  z-index: 20;
+  text-align: center;
+  letter-spacing: 1px;
+  user-select: none;
+  pointer-events: auto;
+}
+.linksInInfoOverlay a {
+  color: #4cd9ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.controlsReminder {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #4cd9ff;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgba(20, 20, 40, 0.8);
+  padding: 6px 20px;
+  border-radius: 20px;
+  user-select: none;
+  z-index: 30;
+  pointer-events: none;
+}
+@media (max-width: 650px) {
+  .controlsReminder {
+    font-size: 14px;
+    padding: 4px 16px;
+  }
+  .introCloud {
+    top: 40%;
+    padding: 20px 30px;
+    font-size: 14px;
+  }
+  .infoOverlay {
+    font-size: 18px;
+    padding: 24px 32px;
+    max-width: 90vw;
+  }
+}
