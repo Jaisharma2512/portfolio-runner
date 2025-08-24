@@ -113,11 +113,11 @@ const sections = [
           <h3
             style={{
               margin: 0,
-              color: '#61dafb',
+              color: '#61dfff',
               fontWeight: 800,
               fontSize: '1.5rem',
               marginBottom: 10,
-              textShadow: '0 0 12px #4cd9ff',
+              textShadow: '0 0 6px rgba(76, 217, 255, 0.7)',
             }}
           >
             Zscaler
@@ -190,8 +190,8 @@ const sections = [
               fontSize: '1.4rem',
               fontWeight: 700,
               marginBottom: 6,
-              color: '#61dafb',
-              textShadow: '0 0 10px #4cd9ff',
+              color: '#61dfff',
+              textShadow: '0 0 10px rgba(76, 217, 255, 0.7)',
             }}
           >
             Graphic Era Deemed University
@@ -273,37 +273,77 @@ const sections = [
   },
   {
     id: 'projects',
-    title: 'Key Projects',
+    title: 'Projects',
     content: (
-      <>
+      <div
+        style={{
+          backgroundColor: '#1f2e44',
+          borderRadius: 14,
+          boxShadow: '0 8px 20px rgba(0,123,255,0.4)',
+          padding: 24,
+          marginBottom: 32,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 24,
+          transition: 'background 0.3s ease',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#29508d')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1f2e44')}
+      >
         <div>
-          <strong>Security Playground</strong>{' '}
-          <a href="https://sc.danklofan.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            [Live Demo]
-          </a>{' '}
-          <a href="https://github.com/Jaisharma2512/security-playground" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            [GitHub]
-          </a>
-          <ul style={{ lineHeight: 1.8, marginTop: 6, marginBottom: 24, paddingLeft: 20 }}>
+          <h3
+            style={{
+              color: '#61dfff',
+              fontWeight: 700,
+              fontSize: '1.4rem',
+              marginBottom: 10,
+              textShadow: '0 0 10px rgba(76, 217, 255, 0.7)',
+            }}
+          >
+            Security Playground
+          </h3>
+          <p>
+            <a href="https://sc.danklofan.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              Live Demo
+            </a>{' '}
+            |{' '}
+            <a href="https://github.com/Jaisharma2512/security-playground" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              GitHub
+            </a>
+          </p>
+          <ul style={{ paddingLeft: 22, color: '#9abff2', lineHeight: 1.8 }}>
             <li>Developed a containerized web server simulating security vulnerabilities to facilitate hands-on learning in Dockerized environments.</li>
             <li>Orchestrated deployment on GKE with Jenkins pipelines and configured NGINX reverse proxies for realistic sandbox testing of security issues.</li>
           </ul>
         </div>
+
         <div>
-          <strong>Small Boy</strong>{' '}
-          <a href="https://smallboy.danklofan.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            [Live Demo]
-          </a>{' '}
-          |{' '}
-          <a href="https://github.com/Jaisharma2512/Smallboy/tree/k8s-resources" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            [GitHub]
-          </a>
-          <ul style={{ lineHeight: 1.8, marginTop: 6, marginBottom: 24, paddingLeft: 20 }}>
+          <h3
+            style={{
+              color: '#61dfff',
+              fontWeight: 700,
+              fontSize: '1.4rem',
+              marginBottom: 10,
+              textShadow: '0 0 10px rgba(76, 217, 255, 0.7)',
+            }}
+          >
+            Small Boy
+          </h3>
+          <p>
+            <a href="https://smallboy.danklofan.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              Live Demo
+            </a>{' '}
+            |{' '}
+            <a href="https://github.com/Jaisharma2512/Smallboy/tree/k8s-resources" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              GitHub
+            </a>
+          </p>
+          <ul style={{ paddingLeft: 22, color: '#9abff2', lineHeight: 1.8 }}>
             <li>Automated GKE provisioning using Terraform for a URL shortener application, boosting infrastructure deployment efficiency by 80%.</li>
             <li>Architected CI/CD pipelines leveraging Jenkins and GitHub Actions, using Helm charts and ArgoCD for seamless containerized deployments with zero downtime.</li>
           </ul>
         </div>
-      </>
+      </div>
     ),
   },
   {
@@ -314,13 +354,15 @@ const sections = [
         style={{
           backgroundColor: '#1f2e44',
           borderRadius: 14,
-          boxShadow: '0 6px 20px rgba(0,123,255,0.4)',
+          boxShadow: '0 8px 20px rgba(0,123,255,0.4)',
           padding: 24,
           marginBottom: 32,
           display: 'flex',
           flexDirection: 'column',
           gap: 24,
         }}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#29508d')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1f2e44')}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <img
@@ -330,13 +372,12 @@ const sections = [
               width: 48,
               height: 48,
               objectFit: 'contain',
-              background: '#fff',
               borderRadius: 8,
+              backgroundColor: '#fff',
+              boxShadow: '0 0 10px rgba(76, 217, 255, 0.4)',
               padding: 4,
-              boxSizing: 'border-box',
-              boxShadow: '0 0 10px rgba(0, 123, 255, 0.4)',
-              transition: 'transform 0.3s ease',
               cursor: 'pointer',
+              transition: 'transform 0.3s ease',
             }}
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
@@ -354,13 +395,12 @@ const sections = [
               width: 48,
               height: 48,
               objectFit: 'contain',
-              background: '#fff',
               borderRadius: 8,
+              backgroundColor: '#fff',
+              boxShadow: '0 0 10px rgba(76, 217, 255, 0.4)',
               padding: 4,
-              boxSizing: 'border-box',
-              boxShadow: '0 0 10px rgba(0, 123, 255, 0.4)',
-              transition: 'transform 0.3s ease',
               cursor: 'pointer',
+              transition: 'transform 0.3s ease',
             }}
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
