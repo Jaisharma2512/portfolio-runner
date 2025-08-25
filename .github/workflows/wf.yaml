@@ -1,0 +1,13 @@
+name: pipeline1
+on: 
+    push:
+        branches:
+            - main
+jobs:
+  route:
+   runs-on: ubuntu-latest
+   outputs: 
+    image-tag: ${{ steps.set-tag.outputs.githash }}
+   steps:
+    - name: checkout git
+      uses: actions/checkout@v5
