@@ -61,7 +61,11 @@ function FadeInSection({ id, title, content }) {
       }}
     >
       <h2 style={sectionTitleStyle}>{title}</h2>
-      {typeof content === 'string' ? <p style={paragraphStyle}>{content}</p> : content}
+      {typeof content === 'string' ? (
+        <p style={paragraphStyle}>{content}</p>
+      ) : (
+        content
+      )}
     </section>
   );
 }
@@ -125,9 +129,7 @@ const sections = [
           <p style={{ margin: 0, color: '#b0cef9', fontSize: 16, lineHeight: 1.55 }}>
             Cloud Support Engineer – DevOps
             <br />
-            Chandigarh, India | March 2023 – March 2025
-            <br />
-            <em style={{ opacity: 0.7 }}>Internship: Mar 2023 – Oct 2023 & Full-time: Oct 2023 – Mar 2025</em>
+            Chandigarh, India
           </p>
           <ul
             style={{
@@ -382,7 +384,12 @@ const sections = [
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
           />
-          <a href="https://www.credly.com/badges/cc43f249-f710-4c80-b8f1-2aee8011d07f/public_url" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, fontSize: 18 }}>
+          <a
+            href="https://www.credly.com/badges/cc43f249-f710-4c80-b8f1-2aee8011d07f/public_url"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ ...linkStyle, fontSize: 18 }}
+          >
             Google Associate Cloud Engineer
           </a>
         </div>
@@ -405,7 +412,12 @@ const sections = [
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
           />
-          <a href="https://drive.google.com/file/d/1C24ksyNmTdIhgfdjhaLbmhy0RD326OR-/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, fontSize: 18 }}>
+          <a
+            href="https://drive.google.com/file/d/1C24ksyNmTdIhgfdjhaLbmhy0RD326OR-/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ ...linkStyle, fontSize: 18 }}
+          >
             IEEE Certificate of Appreciation
           </a>
         </div>
