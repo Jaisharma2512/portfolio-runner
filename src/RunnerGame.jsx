@@ -4,30 +4,47 @@ import styles from './RunnerGame.module.css';
 const PLAYER_SIZE = 96;
 const ORB_SIZE = 48;
 
+// Portfolio info for all phases
 const portfolioInfo = {
-  about: 'DevOps Engineer with 2 years of experience automating infrastructure and building robust CI/CD pipelines.',
+  college: 'Bachelor of Technology in Computer Science Engineering\nGraduated July 2023',
+  projects: 'Smallboy | GitHub, Live Demo\nSecurity Playground | GitHub, Live Demo',
   skills: 'Expert in Google Cloud, Terraform, Jenkins, Kubernetes, Docker, Ansible, ArgoCD, Helm, and more.',
-  projects: 'Security Playground & Smallboy: deployed robust cloud-native solutions with automated pipelines.',
   certificates: 'Google Cloud Associate Cloud Engineer & IEEE Appreciation.',
 };
 
+// Custom titles for info windows (for skills orb)
+const infoTitles = {
+  skills: 'Cloud Support Engineer - DevOps at Zscaler',
+};
+
+// Links used in info windows
 const links = {
-  github: 'https://github.com/Jaisharma2512/Smallboy',
+  github: 'https://github.com/Jaisharma2512/Smallboy', // (Can keep for GitHub main)
   linkedin: 'https://www.linkedin.com/in/jaisharma2512/',
+  freelancer: 'https://www.fiverr.com/sellers/jaisharma2512/edit',
   smallboyProject: 'https://github.com/Jaisharma2512/Smallboy/tree/k8s-resources',
   securityPlaygroundProject: 'https://github.com/Jaisharma2512/security-playground',
   smallboyLive: 'https://smallboy.danklofan.com',
   securityPlaygroundLive: 'https://sc.danklofan.com',
-  freelancer: 'https://www.fiverr.com/sellers/jaisharma2512/edit',
   gceCert: 'https://www.credly.com/badges/cc43f249-f710-4c80-b8f1-2aee8011d07f/public_url',
   ieeeCert: 'https://drive.google.com/file/d/1C24ksyNmTdIhgfdjhaLbmhy0RD326OR-/view?usp=sharing',
 };
 
-const orbs = [
-  { x: 300, key: 'about' },
-  { x: 650, key: 'skills' },
-  { x: 950, key: 'projects' },
-  { x: 1150, key: 'certificates' },
+// Orbs per phase
+const phaseOneOrbs = [
+  { x: 600, key: 'college' },
+];
+
+const phaseTwoOrbs = [
+  { x: 400, key: 'projects' },  // 'about' orb removed as per earlier requests
+];
+
+const phaseThreeOrbs = [
+  { x: 600, key: 'skills' },
+];
+
+const phaseFourOrbs = [
+  { x: 600, key: 'certificates' },
 ];
 
 function getCanvasSize() {
@@ -60,12 +77,15 @@ function RunnerGame() {
   const [activeInfo, setActiveInfo] = useState(null);
   const [infoText, setInfoText] = useState('');
   const [infoVisible, setInfoVisible] = useState(false);
-  const [activeOrbIndex, setActiveOrbIndex] = useState(0);
+  const [displayTitle, setDisplayTitle] = useState('');
+
+  const [gamePhase, setGamePhase] = useState(1);
+
+  const collectedOrbsRef = useRef(new Set());
 
   const canvasRef = useRef(null);
   const jumpAudioRef = useRef(null);
 
-  // Responsive canvas update on window resize
   useEffect(() => {
     const handleResize = () => {
       const size = getCanvasSize();
@@ -76,9 +96,9 @@ function RunnerGame() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Load assets after game starts
   useEffect(() => {
     if (!gameStarted) return;
+
     const assets = {};
     let loaded = 0;
     const total = 3;
@@ -89,7 +109,13 @@ function RunnerGame() {
     };
 
     assets.bg = new window.Image();
-    assets.bg.src = '/server_room_bg.png';
+    if (gamePhase === 1) {
+      assets.bg.src = '/graphic.jpg';
+    } else if (gamePhase === 3) {
+      assets.bg.src = '/zscaler.jpg';
+    } else {
+      assets.bg.src = '/server_room_bg.png';
+    }
     assets.bg.onload = handleLoad;
 
     assets.player = new window.Image();
@@ -101,9 +127,8 @@ function RunnerGame() {
     assets.orb.onload = handleLoad;
 
     imagesRef.current = assets;
-  }, [gameStarted]);
+  }, [gameStarted, gamePhase]);
 
-  // Keyboard/touch controls for game interactions
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!gameStarted && (e.key === 'f' || e.key === 'F')) {
@@ -148,7 +173,6 @@ function RunnerGame() {
     };
   }, [gameStarted, paused]);
 
-  // Main game loop & rendering
   useEffect(() => {
     if (!gameStarted || !assetsLoaded) return;
     if (paused) return;
@@ -166,7 +190,28 @@ function RunnerGame() {
       }
 
       playerX.current += RUN_SPEED;
-      if (playerX.current > canvasSize.width) playerX.current = 0;
+
+      if (playerX.current > canvasSize.width) {
+        playerX.current = 0;
+
+        if (gamePhase === 2) {
+          setGamePhase(3);
+          collectedOrbsRef.current.clear();
+          setScore(0);
+          setActiveInfo(null);
+          setInfoText('');
+          setInfoVisible(false);
+          setAssetsLoaded(false);
+        } else if (gamePhase === 3) {
+          setGamePhase(4);
+          collectedOrbsRef.current.clear();
+          setScore(0);
+          setActiveInfo(null);
+          setInfoText('');
+          setInfoVisible(false);
+          setAssetsLoaded(false);
+        }
+      }
 
       ctx.clearRect(0, 0, canvasSize.width, canvasSize.height);
 
@@ -175,19 +220,31 @@ function RunnerGame() {
       ctx.fillStyle = 'rgba(30,60,90,0.3)';
       ctx.fillRect(0, canvasSize.height - 26, canvasSize.width, 26);
 
-      ctx.drawImage(
-        imagesRef.current.player,
-        playerX.current,
-        playerY.current,
-        PLAYER_SIZE,
-        PLAYER_SIZE
-      );
+      ctx.drawImage(imagesRef.current.player, playerX.current, playerY.current, PLAYER_SIZE, PLAYER_SIZE);
 
-      const currentOrbs = orbs.slice(activeOrbIndex, activeOrbIndex + 2);
-      currentOrbs.forEach(({ x, key }, idx) => {
+      let currentOrbs = [];
+
+      switch (gamePhase) {
+        case 1:
+          currentOrbs = phaseOneOrbs;
+          break;
+        case 2:
+          currentOrbs = phaseTwoOrbs;
+          break;
+        case 3:
+          currentOrbs = phaseThreeOrbs;
+          break;
+        case 4:
+          currentOrbs = phaseFourOrbs;
+          break;
+        default:
+          currentOrbs = [];
+      }
+
+      currentOrbs.forEach(({ x, key }) => {
         const orbX = (x / 1200) * canvasSize.width;
         const orbY = canvasSize.height - 50;
-        if (!activeInfo || activeInfo !== key) {
+        if (!collectedOrbsRef.current.has(key) && (!activeInfo || activeInfo !== key)) {
           ctx.drawImage(imagesRef.current.orb, orbX, orbY, ORB_SIZE, ORB_SIZE);
 
           if (
@@ -198,7 +255,19 @@ function RunnerGame() {
           ) {
             setActiveInfo(key);
             setScore((s) => s + 1);
-            setActiveOrbIndex((idx) => Math.min(idx + 1, orbs.length - 2));
+            collectedOrbsRef.current.add(key);
+
+            if (gamePhase === 1 && key === 'college') {
+              setTimeout(() => {
+                setGamePhase(2);
+                collectedOrbsRef.current.clear();
+                setScore(0);
+                setActiveInfo(null);
+                setInfoText('');
+                setInfoVisible(false);
+                setAssetsLoaded(false);
+              }, 2000);
+            }
           }
         }
       });
@@ -208,15 +277,16 @@ function RunnerGame() {
     draw();
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [gameStarted, assetsLoaded, activeInfo, score, activeOrbIndex, paused, canvasSize]);
+  }, [gameStarted, assetsLoaded, activeInfo, paused, canvasSize, gamePhase]);
 
-  // Typing effect for info text display
   useEffect(() => {
     if (!activeInfo) return;
     setInfoVisible(true);
     let i = 0;
-    const text = portfolioInfo[activeInfo];
+    const text = portfolioInfo[activeInfo] || '';
     setInfoText('');
+    setDisplayTitle(infoTitles[activeInfo] || (activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)));
+
     const intervalId = setInterval(() => {
       setInfoText(text.substring(0, i + 1));
       i++;
@@ -225,7 +295,6 @@ function RunnerGame() {
     return () => clearInterval(intervalId);
   }, [activeInfo]);
 
-  // Hide info overlay after timeout
   useEffect(() => {
     if (!infoVisible) return;
     const timerId = setTimeout(() => {
@@ -236,12 +305,20 @@ function RunnerGame() {
     return () => clearTimeout(timerId);
   }, [infoVisible]);
 
-  // Info window content builder
   function renderInfoWindow() {
     if (!infoVisible || !activeInfo) return null;
-    // Colors
     const blue = '#61dfff';
-    const textStyle = { color: blue, marginBottom: 12, fontWeight: 700, fontSize: 22, textAlign: 'center', textShadow: "0 0 8px #1119" };
+    const textStyle = {
+      color: blue,
+      marginBottom: 12,
+      fontWeight: 700,
+      fontSize: 22,
+      textAlign: 'center',
+      textShadow: "0 0 8px #1119"
+    };
+
+    const titleToShow = displayTitle;
+
     return (
       <div
         style={{
@@ -258,46 +335,40 @@ function RunnerGame() {
           zIndex: 200,
           border: '1.5px solid #1658ff21',
           fontFamily: 'inherit',
+          whiteSpace: 'pre-line',
         }}
       >
         <div style={textStyle}>
-          {activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)}
+          {titleToShow}
         </div>
-        <div style={{ color: '#e8f4ff', fontWeight: 500, fontSize: 16, textAlign: 'center', marginBottom: 18 }}>
+        <div style={{ color: '#e8f4ff', fontWeight: 500, fontSize: 16, textAlign: 'center', marginBottom: 18, whiteSpace: 'pre-line' }}>
           {infoText}
         </div>
-        {/* Custom links/sections depending on info key */}
-        {activeInfo === 'about' && (
-          <div style={{ marginTop: 6 }}>
-            <a href={links.github} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16, marginRight: 10 }}>GitHub</a>
-            <a href={links.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>LinkedIn</a>
-            <div style={{ marginTop: 8 }}>
-              <a href={links.freelancer} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>Fiverr</a>
-            </div>
-          </div>
-        )}
-        {activeInfo === 'skills' && (
-          <div style={{ marginTop: 6 }}>
-            <span style={{ color: blue, fontWeight: 600 }}>Cloud • DevOps • Automation</span>
-          </div>
-        )}
-        {activeInfo === 'projects' && (
+
+        {(activeInfo === 'projects') && (
           <div style={{ marginTop: 6, textAlign: 'left' }}>
-            <div style={{ marginBottom: 7 }}>
-              <span style={{ color: blue, fontWeight: 600 }}>Smallboy:</span>{' '}
-              <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>GitHub</a>
-              {' | '}
-              <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Link</a>
+            <div style={{ marginBottom: 5 }}>
+              <strong>Smallboy:</strong>{' '}
+              <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15, marginRight: 8 }}>GitHub</a>
+              <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Demo</a>
             </div>
             <div>
-              <span style={{ color: blue, fontWeight: 600 }}>Security Playground:</span>{' '}
-              <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>GitHub</a>
-              {' | '}
-              <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Link</a>
+              <strong>Security Playground:</strong>{' '}
+              <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15, marginRight: 8 }}>GitHub</a>
+              <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Demo</a>
             </div>
           </div>
         )}
-        {activeInfo === 'certificates' && (
+
+        {(activeInfo === 'skills') && (
+          <div style={{ marginTop: 6, textAlign: 'center' }}>
+            <span style={{ color: blue, fontWeight: 600 }}>
+              Cloud • DevOps • Automation
+            </span>
+          </div>
+        )}
+
+        {(activeInfo === 'certificates') && (
           <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
             <a href={links.gceCert} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>Google Associate Cloud Engineer Certificate</a>
             <a href={links.ieeeCert} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>IEEE Certificate of Appreciation</a>
@@ -307,7 +378,6 @@ function RunnerGame() {
     );
   }
 
-  // Unified top bar: orbs + instruction
   function renderTopBar() {
     return (
       <div
