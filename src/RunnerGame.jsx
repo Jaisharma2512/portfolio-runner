@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import styles from './RunnerGame.module.css'; // CSS Module import
+import styles from './RunnerGame.module.css';
 
 const PLAYER_SIZE = 96;
 const ORB_SIZE = 48;
@@ -30,7 +30,6 @@ const orbs = [
   { x: 1150, key: 'certificates' },
 ];
 
-// Responsive 16:9 aspect ratio canvas sizing
 function getCanvasSize() {
   const isMobile = window.innerWidth <= 800;
   const maxWidth = isMobile ? window.innerWidth * 0.97 : 900;
@@ -89,15 +88,15 @@ function RunnerGame() {
       if (loaded === total) setAssetsLoaded(true);
     };
 
-    assets.bg = new Image();
+    assets.bg = new window.Image();
     assets.bg.src = '/server_room_bg.png';
     assets.bg.onload = handleLoad;
 
-    assets.player = new Image();
+    assets.player = new window.Image();
     assets.player.src = '/dev_sprite.png';
     assets.player.onload = handleLoad;
 
-    assets.orb = new Image();
+    assets.orb = new window.Image();
     assets.orb.src = '/orb.png';
     assets.orb.onload = handleLoad;
 
@@ -135,13 +134,17 @@ function RunnerGame() {
 
     window.addEventListener('keydown', handleKeyDown);
     const canvas = canvasRef.current;
-    canvas.addEventListener('touchstart', handleTap);
-    canvas.addEventListener('click', handleTap);
+    if (canvas) {
+      canvas.addEventListener('touchstart', handleTap);
+      canvas.addEventListener('click', handleTap);
+    }
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      canvas.removeEventListener('touchstart', handleTap);
-      canvas.removeEventListener('click', handleTap);
+      if (canvas) {
+        canvas.removeEventListener('touchstart', handleTap);
+        canvas.removeEventListener('click', handleTap);
+      }
     };
   }, [gameStarted, paused]);
 
@@ -181,7 +184,7 @@ function RunnerGame() {
       );
 
       const currentOrbs = orbs.slice(activeOrbIndex, activeOrbIndex + 2);
-      currentOrbs.forEach(({ x, key }) => {
+      currentOrbs.forEach(({ x, key }, idx) => {
         const orbX = (x / 1200) * canvasSize.width;
         const orbY = canvasSize.height - 50;
         if (!activeInfo || activeInfo !== key) {
@@ -199,10 +202,6 @@ function RunnerGame() {
           }
         }
       });
-
-      ctx.fillStyle = '#eee';
-      ctx.font = '22px Arial';
-      ctx.fillText(`Orbs collected: ${score}`, 18, 38);
 
       animationFrameId = requestAnimationFrame(draw);
     }
@@ -222,7 +221,7 @@ function RunnerGame() {
       setInfoText(text.substring(0, i + 1));
       i++;
       if (i >= text.length) clearInterval(intervalId);
-    }, 30);
+    }, 20);
     return () => clearInterval(intervalId);
   }, [activeInfo]);
 
@@ -233,18 +232,125 @@ function RunnerGame() {
       setInfoVisible(false);
       setActiveInfo(null);
       setInfoText('');
-    }, 8000);
+    }, 7000);
     return () => clearTimeout(timerId);
   }, [infoVisible]);
 
-  const linkStyle = {
-    color: '#4cd9ff',
-    textDecoration: 'underline',
-    cursor: 'pointer',
-  };
+  // Info window content builder
+  function renderInfoWindow() {
+    if (!infoVisible || !activeInfo) return null;
+    // Colors
+    const blue = '#61dfff';
+    const textStyle = { color: blue, marginBottom: 12, fontWeight: 700, fontSize: 22, textAlign: 'center', textShadow: "0 0 8px #1119" };
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: '13%',
+          left: '50%',
+          transform: 'translate(-50%, 0)',
+          minWidth: 320,
+          maxWidth: 420,
+          padding: '28px 18px',
+          background: 'rgba(16,32,49,0.87)',
+          borderRadius: 18,
+          boxShadow: '0 4px 28px #126',
+          zIndex: 200,
+          border: '1.5px solid #1658ff21',
+          fontFamily: 'inherit',
+        }}
+      >
+        <div style={textStyle}>
+          {activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)}
+        </div>
+        <div style={{ color: '#e8f4ff', fontWeight: 500, fontSize: 16, textAlign: 'center', marginBottom: 18 }}>
+          {infoText}
+        </div>
+        {/* Custom links/sections depending on info key */}
+        {activeInfo === 'about' && (
+          <div style={{ marginTop: 6 }}>
+            <a href={links.github} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16, marginRight: 10 }}>GitHub</a>
+            <a href={links.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>LinkedIn</a>
+            <div style={{ marginTop: 8 }}>
+              <a href={links.freelancer} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>Fiverr</a>
+            </div>
+          </div>
+        )}
+        {activeInfo === 'skills' && (
+          <div style={{ marginTop: 6 }}>
+            <span style={{ color: blue, fontWeight: 600 }}>Cloud • DevOps • Automation</span>
+          </div>
+        )}
+        {activeInfo === 'projects' && (
+          <div style={{ marginTop: 6, textAlign: 'left' }}>
+            <div style={{ marginBottom: 7 }}>
+              <span style={{ color: blue, fontWeight: 600 }}>Smallboy:</span>{' '}
+              <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>GitHub</a>
+              {' | '}
+              <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Link</a>
+            </div>
+            <div>
+              <span style={{ color: blue, fontWeight: 600 }}>Security Playground:</span>{' '}
+              <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>GitHub</a>
+              {' | '}
+              <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 15 }}>Live Link</a>
+            </div>
+          </div>
+        )}
+        {activeInfo === 'certificates' && (
+          <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <a href={links.gceCert} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>Google Associate Cloud Engineer Certificate</a>
+            <a href={links.ieeeCert} target="_blank" rel="noopener noreferrer" style={{ color: blue, textDecoration: 'underline', fontSize: 16 }}>IEEE Certificate of Appreciation</a>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Unified top bar: orbs + instruction
+  function renderTopBar() {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: 15,
+          left: 34,
+          width: '96%',
+          zIndex: 101,
+          display: 'flex',
+          alignItems: 'center',
+          pointerEvents: 'none',
+          fontFamily: 'inherit',
+        }}
+      >
+        <span style={{
+          color: '#fff',
+          fontWeight: 'bold',
+          fontSize: 23,
+          textShadow: '0 0 9px #381',
+          marginRight: 30,
+        }}>
+          Orbs collected: {score}
+        </span>
+        <span style={{
+          color: '#FFA80F',
+          fontWeight: 700,
+          fontSize: 18,
+          letterSpacing: 0.5,
+          marginLeft: 0,
+          whiteSpace: 'nowrap',
+          textShadow: '0 0 8px #222'
+        }}>
+          Press UP ARROW to jump, Press P or ESC to pause/resume
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="runner-container" style={{ position: 'relative', width: '100%', maxWidth: 900, margin: '20px auto' }}>
+      {renderTopBar()}
+
       {!gameStarted && (
         <div className={styles.introCloud}>
           <p style={{ margin: 0, fontWeight: 'bold', fontSize: 20 }}>
@@ -257,7 +363,6 @@ function RunnerGame() {
       )}
 
       <audio ref={jumpAudioRef} src="/mariojump.mp3" preload="auto" />
-
       <canvas
         ref={canvasRef}
         width={canvasSize.width}
@@ -279,80 +384,9 @@ function RunnerGame() {
         </div>
       )}
 
-      {infoVisible && (
-        <div className={styles.infoOverlay}>
-          <strong style={{ color: '#4cd9ff', fontSize: 24, letterSpacing: 1 }}>
-            {activeInfo && activeInfo.charAt(0).toUpperCase() + activeInfo.slice(1)}
-          </strong>
-          <div style={{ marginTop: 14 }}>{infoText}</div>
+      {renderInfoWindow()}
 
-          {activeInfo === 'about' && (
-            <div style={{ marginTop: 22 }}>
-              <a href={links.github} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                GitHub Profile
-              </a>{' '}
-              |{' '}
-              <a href={links.linkedin} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                LinkedIn Profile
-              </a>
-              <p style={{ marginTop: 10, fontStyle: 'italic' }}>
-                Freelancer on Fiverr:{' '}
-                <a href={links.freelancer} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Visit Fiverr Profile
-                </a>
-              </p>
-            </div>
-          )}
-
-          {activeInfo === 'skills' && (
-            <div style={{ marginTop: 22 }}>
-              <p>My Cloud and DevOps Skills in action!</p>
-            </div>
-          )}
-
-          {activeInfo === 'projects' && (
-            <div style={{ marginTop: 22 }}>
-              <p>
-                <a href={links.smallboyLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Smallboy Live
-                </a>{' '}
-                |{' '}
-                <a href={links.smallboyProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Smallboy GitHub
-                </a>
-              </p>
-              <p>
-                <a href={links.securityPlaygroundLive} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Security Playground Live
-                </a>{' '}
-                |{' '}
-                <a href={links.securityPlaygroundProject} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Security Playground GitHub
-                </a>
-              </p>
-            </div>
-          )}
-
-          {activeInfo === 'certificates' && (
-            <div style={{ marginTop: 22 }}>
-              <p>
-                <a href={links.gceCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  Google Associate Cloud Engineer Certificate
-                </a>
-              </p>
-              <p>
-                <a href={links.ieeeCert} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                  IEEE Certificate of Appreciation
-                </a>
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className={styles.controlsReminder}>
-        Press UP ARROW to jump, Press P or ESC to pause/resume
-      </div>
+      <div className={styles.controlsReminder} />
     </div>
   );
 }
