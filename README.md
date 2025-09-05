@@ -2,8 +2,26 @@
 
 <img width="1918" height="883" alt="image" src="https://github.com/user-attachments/assets/3e61d1b3-cb90-4d23-b822-ca63f8e00326" />
 
+
 <img width="1899" height="861" alt="image" src="https://github.com/user-attachments/assets/e28bc22d-b17a-41b0-9e4c-7eea72b8a6f6" />
 
+
+**🎮 How to Play the Game**
+
+
+**Play using the following controls:**
+
+
+- Press the UP arrow to jump
+
+  
+- Press F to start the game
+
+
+- To click a link, hover the pointer to the information window and interact
+
+
+Enjoy progressing through the levels that simulate real cloud and DevOps tasks!
 
 LinkedIn | GitHub | ✉️ jaisharma2512@gmail.com
 
