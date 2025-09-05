@@ -30,11 +30,11 @@ Enjoy progressing through the levels that simulate real cloud and DevOps tasks!
 
 This portfolio game is a full CI/CD project built with modern cloud-native technologies:
 
-Frontend: React.js for a dynamic and interactive user interface
+**Frontend:** React.js for a dynamic and interactive user interface
 
-CI/CD: GitHub Actions automate testing, building, and deployment workflows seamlessly
+**CI/CD:** GitHub Actions automate testing, building, and deployment workflows seamlessly
 
-Containerization: Docker is used for consistent environments and easy deployment
+**Containerization:** Docker is used for consistent environments and easy deployment
 
 The project showcases a complete DevOps lifecycle from code commit to deployment, demonstrating automation, scalability, and agile cloud practices in action.
 
