@@ -1,43 +1,46 @@
-🚀 Cloud Journey Portfolio Game
+**🚀 Cloud Journey Portfolio Game**
+
 Welcome! This is an interactive portfolio detailing my cloud journey and professional growth—organized to showcase all highlights with modern flair.
 
 <img width="1918" height="883" alt="image" src="https://github.com/user-attachments/assets/6f1c7d7f-c16a-49f0-a8e0-8c2071e7fbb8" />
 
 
-🗂️ Table of Contents
+**🗂️ Table of Contents**
+
 ⚡ Projects
-
 🎓 Certifications
-
 💼 Work Experience
-
 🛠️ Skills
-
 🏫 Education
-
 🏆 Achievements
-
 📬 Contact
 
-⚡ Projects
+**⚡ Projects**
 CI/CD Portfolio Game: An interactive game demonstrating cloud concepts and DevOps automation.
 
 Add other key projects with tech stack and links as needed.
 
-🎓 Certifications
-🏅 AWS Certified Solutions Architect – Associate
+**🎓 Certifications**
+🏅 Google Cloud Certified Associate Cloud Engineer
+Demonstrates ability to deploy apps, manage operations, secure cloud resources, and maintain enterprise solutions using Google Cloud. No prerequisites required; recommended for professionals with at least 6 months of hands-on GCP experience. Valid for 3 years and globally recognized by top employers.
 
-🐳 Docker Certified Associate
+🌟 Certificate of Appreciation — IEEE UP Section
+Awarded by the IEEE Uttar Pradesh Section in recognition of notable contributions and achievements in technical/community engagements.
 
-☁️ Microsoft Azure Fundamentals
-
-Include external trainings, badges, or certificates.
-
-💼 Work Experience
+**💼 Work Experience**
 👤 Role	🏢 Company	⏳ Duration	🌟 Highlights
-Cloud Developer	Acme Cloud Ltd.	2023–2025	Deployed CI/CD pipelines for production workloads.
-DevOps Intern	XYZ Technologies	2022	Automated deployment & monitoring.
-🛠️ Skills
+DevOps Engineer	Zscaler	2023–2025	- Developed and maintained CI/CD pipelines for cloud security applications.
+Automated infrastructure provisioning and deployment processes across AWS, Azure, and GCP.
+
+Implemented infrastructure as code using Terraform and Kubernetes for scalable, secure environments.
+
+Enhanced monitoring, logging, and operational workflows to maintain high availability and reliability.
+
+Collaborated cross-functionally to streamline DevOps best practices and improve developer experience. |
+
+
+
+**🛠️ Skills**
 Cloud Platforms: AWS ☁️, Azure ☁️, GCP 🌤️
 
 Programming: Python 🐍, JavaScript ✨, Node.js 🟢
