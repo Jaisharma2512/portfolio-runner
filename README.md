@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+🚀 Cloud Journey Portfolio Game
+Welcome! This is an interactive portfolio detailing my cloud journey and professional growth—organized to showcase all highlights with modern flair.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img width="1918" height="883" alt="image" src="https://github.com/user-attachments/assets/6f1c7d7f-c16a-49f0-a8e0-8c2071e7fbb8" />
 
-## Available Scripts
 
-In the project directory, you can run:
+🗂️ Table of Contents
+⚡ Projects
 
-### `npm start`
+🎓 Certifications
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+💼 Work Experience
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🛠️ Skills
 
-### `npm test`
+🏫 Education
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🏆 Achievements
 
-### `npm run build`
+📬 Contact
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+⚡ Projects
+CI/CD Portfolio Game: An interactive game demonstrating cloud concepts and DevOps automation.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Add other key projects with tech stack and links as needed.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🎓 Certifications
+🏅 AWS Certified Solutions Architect – Associate
 
-### `npm run eject`
+🐳 Docker Certified Associate
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+☁️ Microsoft Azure Fundamentals
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Include external trainings, badges, or certificates.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+💼 Work Experience
+👤 Role	🏢 Company	⏳ Duration	🌟 Highlights
+Cloud Developer	Acme Cloud Ltd.	2023–2025	Deployed CI/CD pipelines for production workloads.
+DevOps Intern	XYZ Technologies	2022	Automated deployment & monitoring.
+🛠️ Skills
+Cloud Platforms: AWS ☁️, Azure ☁️, GCP 🌤️
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Programming: Python 🐍, JavaScript ✨, Node.js 🟢
 
-## Learn More
+DevOps Tools: Docker 🐳, Kubernetes ☸️, GitHub Actions 🤖
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Soft skills: Team collaboration 🤝, problem solving 🧠
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+🏫 Education
+Bachelor of Technology in Computer Science
+ABC College of Engineering, 2019–2023
+Relevant Coursework: Cloud Computing, Data Structures, DevOps Fundamentals
 
-### Code Splitting
+🏆 Achievements
+🏆 Winner, XYZ Hackathon 2024
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+✍️ Published article in "DevOps Digest"
 
-### Analyzing the Bundle Size
+📜 Dean’s List—2022, 2023
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Add awards, publications, or extracurricular wins.
 
-### Making a Progressive Web App
+📬 Contact
+GitHub: Jaisharma2512
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+LinkedIn: [linkedin.com/jaisharma2513](https://www.linkedin.com/in/jaisharma2512/)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Email: jaisharma2512@gmail.com
