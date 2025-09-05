@@ -1,5 +1,10 @@
 **🚀 Jai Sharma - Cloud & DevOps Engineer Portfolio Game**
 
+<img width="1918" height="883" alt="image" src="https://github.com/user-attachments/assets/3e61d1b3-cb90-4d23-b822-ca63f8e00326" />
+
+<img width="1899" height="861" alt="image" src="https://github.com/user-attachments/assets/e28bc22d-b17a-41b0-9e4c-7eea72b8a6f6" />
+
+
 LinkedIn | GitHub | ✉️ jaisharma2512@gmail.com
 
 **👨‍💻 Summary**
@@ -65,5 +70,6 @@ View Certificate
 
 **📬 Contact**
 Feel free to reach out for collaborations or inquiries:
+
 ✉️ jaisharma2512@gmail.com
 LinkedIn | GitHub
