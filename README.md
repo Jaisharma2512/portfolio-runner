@@ -1,71 +1,59 @@
-**🚀 Cloud Journey Portfolio Game**
+**🚀 Jai Sharma - Cloud & DevOps Engineer Portfolio Game**
+LinkedIn | GitHub | ✉️ jaisharma2512@gmail.com
 
-Welcome! This is an interactive portfolio detailing my cloud journey and professional growth—organized to showcase all highlights with modern flair.
-
-<img width="1918" height="883" alt="image" src="https://github.com/user-attachments/assets/6f1c7d7f-c16a-49f0-a8e0-8c2071e7fbb8" />
-
-
-**🗂️ Table of Contents**
-
-⚡ Projects
-🎓 Certifications
-💼 Work Experience
-🛠️ Skills
-🏫 Education
-🏆 Achievements
-📬 Contact
-
-**⚡ Projects**
-CI/CD Portfolio Game: An interactive game demonstrating cloud concepts and DevOps automation.
-
-Add other key projects with tech stack and links as needed.
-
-**🎓 Certifications**
-🏅 Google Cloud Certified Associate Cloud Engineer
-Demonstrates ability to deploy apps, manage operations, secure cloud resources, and maintain enterprise solutions using Google Cloud. No prerequisites required; recommended for professionals with at least 6 months of hands-on GCP experience. Valid for 3 years and globally recognized by top employers.
-
-🌟 Certificate of Appreciation — IEEE UP Section
-Awarded by the IEEE Uttar Pradesh Section in recognition of notable contributions and achievements in technical/community engagements.
+**👨‍💻 Summary**
+DevOps Engineer with 2 years of experience delivering expert solutions in collaborative, fast-paced environments. Specialized in automating infrastructure, managing artifacts, and troubleshooting deployments within GCP environments. Skilled in CI/CD, Terraform, Kubernetes, and cloud security automation.
 
 **💼 Work Experience**
 👤 Role	🏢 Company	⏳ Duration	🌟 Highlights
-DevOps Engineer	Zscaler	2023–2025	- Developed and maintained CI/CD pipelines for cloud security applications.
-Automated infrastructure provisioning and deployment processes across AWS, Azure, and GCP.
-
-Implemented infrastructure as code using Terraform and Kubernetes for scalable, secure environments.
-
-Enhanced monitoring, logging, and operational workflows to maintain high availability and reliability.
-
-Collaborated cross-functionally to streamline DevOps best practices and improve developer experience. |
-
-
-
+Cloud Support Engineer - DevOps	Zscaler	Mar 2023 – Mar 2025	- Led GCP lab deployments using Kubernetes & Terraform for Zero Trust Security projects.
+(Internship + Full-time)	- Automated infrastructure provisioning, increasing deployment accuracy by 97%.
+- Improved CI/CD pipeline reliability with validation scripts.
+- Contributed to Disaster Recovery lab builds and cloud security troubleshooting.
+  
 **🛠️ Skills**
-Cloud Platforms: AWS ☁️, Azure ☁️, GCP 🌤️
+Cloud/Infrastructure: Google Cloud Platform (GCP), Terraform, Kubernetes, Docker, Ansible, Argo CD, Helm
 
-Programming: Python 🐍, JavaScript ✨, Node.js 🟢
+CI/CD & Automation: Jenkins, GitHub Actions, GitOps
 
-DevOps Tools: Docker 🐳, Kubernetes ☸️, GitHub Actions 🤖
+Scripting & Programming: Bash, Python, PowerShell
 
-Soft skills: Team collaboration 🤝, problem solving 🧠
+Monitoring & Networking: Prometheus, NGINX, Cloud Networking
 
-🏫 Education
-Bachelor of Technology in Computer Science
-ABC College of Engineering, 2019–2023
-Relevant Coursework: Cloud Computing, Data Structures, DevOps Fundamentals
+Operating Systems: Linux, Windows Server
 
-🏆 Achievements
-🏆 Winner, XYZ Hackathon 2024
+Security: Zero Trust Security, Cloud Security Workflows
 
-✍️ Published article in "DevOps Digest"
+**🎓 Education**
+B. Tech, Computer Science Engineering
+Graphic Era Deemed to be University (July 2023) – CGPA: 8.04/10
 
-📜 Dean’s List—2022, 2023
+🏅 Certificate of Appreciation from IEEE UP Section
 
-Add awards, publications, or extracurricular wins.
+**🎮 Projects**
+Security Playground
+Live Demo | GitHub
 
-📬 Contact
-GitHub: Jaisharma2512
+Built a containerized HTTP web server simulating security vulnerabilities for hands-on testing in Docker environments.
 
-LinkedIn: [linkedin.com/jaisharma2513](https://www.linkedin.com/in/jaisharma2512/)
+Deployed on GKE with Jenkins pipeline, used NGINX for routing and sandboxed vulnerability testing.
 
-Email: jaisharma2512@gmail.com
+Small boy (URL Shortener)
+Live Demo | GitHub
+
+Automated GKE provisioning with Terraform, reducing manual effort by 80%.
+
+Created CI/CD pipelines using Jenkins and GitHub Actions integrating Helm and ArgoCD for zero-downtime deployments.
+
+**🎓 Certifications**
+🏅 Google Cloud Associate Cloud Engineer
+View Certificate
+
+**🏆 Achievements and Awards**
+🏅 Certificate of Appreciation – IEEE UP Section
+View Certificate
+
+**📬 Contact**
+Feel free to reach out for collaborations or inquiries:
+✉️ jaisharma2512@gmail.com
+LinkedIn | GitHub
