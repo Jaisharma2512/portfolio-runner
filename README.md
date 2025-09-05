@@ -10,6 +10,8 @@ LinkedIn | GitHub | ✉️ jaisharma2512@gmail.com
 **👨‍💻 Summary**
 DevOps Engineer with 2 years of experience delivering expert solutions in collaborative, fast-paced environments. Specialized in automating infrastructure, managing artifacts, and troubleshooting deployments within GCP environments. Skilled in CI/CD, Terraform, Kubernetes, and cloud security automation.
 
+
+
 **💼 Work Experience**
 
 👤 Role	🏢 Company	⏳ Duration	🌟 Highlights
@@ -18,6 +20,8 @@ Cloud Support Engineer - DevOps	Zscaler	Mar 2023 – Mar 2025	- Led GCP lab depl
 (Internship + Full-time)	- Automated infrastructure provisioning, increasing deployment accuracy by 97%.
 - Improved CI/CD pipeline reliability with validation scripts.
 - Contributed to Disaster Recovery lab builds and cloud security troubleshooting.
+
+
   
 **🛠️ Skills**
 
@@ -34,6 +38,9 @@ Operating Systems: Linux, Windows Server
 
 Security: Zero Trust Security, Cloud Security Workflows
 
+
+
+
 **🎓 Education**
 
 B. Tech, Computer Science Engineering
@@ -41,6 +48,9 @@ B. Tech, Computer Science Engineering
 Graphic Era Deemed to be University (July 2023) – CGPA: 8.04/10
 
 🏅 Certificate of Appreciation from IEEE UP Section
+
+
+
 
 **🎮 Projects**
 
@@ -63,12 +73,17 @@ Created CI/CD pipelines using Jenkins and GitHub Actions integrating Helm and Ar
 🏅 Google Cloud Associate Cloud Engineer
 View Certificate
 
+
+
 **🏆 Achievements and Awards**
 
 🏅 Certificate of Appreciation – IEEE UP Section
-View Certificate
+ View Certificate
+
+
 
 **📬 Contact**
+
 Feel free to reach out for collaborations or inquiries:
 
 ✉️ jaisharma2512@gmail.com
